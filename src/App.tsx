@@ -2,7 +2,7 @@ import "./App.css";
 import Table from "./components/Table.tsx";
 import { Toaster } from "react-hot-toast";
 import Filter from "./components/Filter.tsx";
-import { FilterProvider } from "./utils/FilterContext.tsx";
+import { FilterProvider } from "./utils/filter-context/provider.tsx";
 
 function App() {
   return (

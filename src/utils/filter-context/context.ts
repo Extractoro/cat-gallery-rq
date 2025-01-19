@@ -7,6 +7,6 @@ export interface FilterContextType {
   setShowFavorites: (show: boolean) => void;
 }
 
-export const FilterContext = createContext<FilterContextType | undefined>(
+export const Context = createContext<FilterContextType | undefined>(
   undefined
 );

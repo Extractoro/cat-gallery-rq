@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FilterContext, FilterContextType } from "./FilterContext";
+import { Context, FilterContextType } from "./context.ts";
 
 export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -15,6 +15,6 @@ export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <FilterContext.Provider value={value}>{children}</FilterContext.Provider>
+    <Context.Provider value={value}>{children}</Context.Provider>
   );
 };

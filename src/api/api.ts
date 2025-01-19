@@ -1,40 +1,39 @@
-import axios from "axios";
-import { ICat } from "../interfaces/interface-cat.ts";
-import { IAllBreeds } from "../interfaces/allBreeds.ts";
-
-const DEFAULT_URL: string = "https://api.thecatapi.com/v1";
-const API_KEY: string = import.meta.env.VITE_API_KEY;
+import apiClient from "./apiClient";
+import { ICat } from "../interfaces/cat.ts";
+import { IAllBreeds } from "../interfaces/all-breeds.ts";
+import toast from "react-hot-toast";
 
 export const getRandomCats = async (page: number) => {
-  return (
-    await axios.get<ICat[]>(`${DEFAULT_URL}/images/search`, {
+  try {
+    const response = await apiClient.get<ICat[]>("/images/search", {
       params: {
         limit: 12,
         mime_types: "jpg",
         has_breeds: true,
-        page: page,
+        page,
         size: "med",
       },
-      headers: {
-        "x-api-key": API_KEY,
-      },
-    })
-  ).data;
+    });
+    return response.data;
+  } catch (err) {
+    toast.error("Error getting random cats.");
+    throw new Error(`Could not fetch random cats. Please try again later. ${err}`);
+  }
 };
 
 export const getBreeds = async () => {
-  return (
-    await axios.get<IAllBreeds[]>(`${DEFAULT_URL}/breeds`, {
-      headers: {
-        "x-api-key": API_KEY,
-      },
-    })
-  ).data;
+  try {
+    const response = await apiClient.get<IAllBreeds[]>("/breeds");
+    return response.data;
+  } catch (err) {
+    toast.error("Error getting cats' breeds.");
+    throw new Error(`Could not fetch getting breeds. Please try again later. ${err}`);
+  }
 };
 
 export const getBreedImages = async (breed_id: string, page: number) => {
-  return (
-    await axios.get<ICat[]>(`${DEFAULT_URL}/images/search`, {
+  try {
+    const response = await apiClient.get<ICat[]>("/images/search", {
       params: {
         breed_ids: breed_id,
         limit: 12,
@@ -42,9 +41,10 @@ export const getBreedImages = async (breed_id: string, page: number) => {
         order: "ASC",
         size: "med",
       },
-      headers: {
-        "x-api-key": API_KEY,
-      },
-    })
-  ).data;
+    });
+    return response.data;
+  } catch (err) {
+    toast.error("Error getting breed images.");
+    throw new Error(`Could not fetch getting breed images. Please try again later. ${err}`);
+  }
 };

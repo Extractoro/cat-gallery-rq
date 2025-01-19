@@ -1,6 +1,7 @@
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import React from "react";
-import { ICat } from "../interfaces/interface-cat.ts";
+import { ICat } from "../interfaces/cat.ts";
+import defaultImage from '../assets/default_image.jpg'
 
 interface CardProps {
   cat: ICat;
@@ -10,9 +11,10 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ cat, favoriteCats, setFavoriteCats }) => {
   const handleFavorite = (cat: ICat) => {
-    const updatedFavorites = favoriteCats.some((favCat) => favCat.id === cat.id)
-      ? favoriteCats.filter((favCat) => favCat.id !== cat.id)
-      : [...favoriteCats, cat];
+    const isFavorite = favoriteCats.some((favCat) => favCat.id === cat.id);
+    const updatedFavorites = isFavorite
+        ? favoriteCats.filter((favCat) => favCat.id !== cat.id)
+        : [...favoriteCats, cat];
 
     localStorage.setItem("favoritesCats", JSON.stringify(updatedFavorites));
     setFavoriteCats(updatedFavorites);
@@ -25,9 +27,9 @@ const Card: React.FC<CardProps> = ({ cat, favoriteCats, setFavoriteCats }) => {
   return (
     <li key={cat.id} className="w-full">
       <img
-        src={cat.url}
+        src={cat.url || defaultImage}
         className="object-cover w-full max-w-[400px] h-[300px] rounded-t-[8px] transition-all duration-300 xm:h-[350px] lg:h-[450px] lg:max-w-full"
-        alt={cat.id}
+        alt={cat.id || "Default Cat"}
       />
 
       <div className="flex items-center justify-between bg-gray-100 py-3 px-4 rounded-b-[8px]">
@@ -35,7 +37,7 @@ const Card: React.FC<CardProps> = ({ cat, favoriteCats, setFavoriteCats }) => {
           Breed name:{" "}
           <span className="font-normal">{cat?.breeds[0]?.name}</span>
         </p>
-        <button onClick={() => handleFavorite(cat)} className="w-5 h-5">
+        <button onClick={() => handleFavorite(cat)} className="w-5 h-5 hover:scale-110 transition-transform">
           {checkFavorite(cat.id) ? (
             <FaHeart color={"red"} size={20} />
           ) : (

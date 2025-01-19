@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "react-dotenv && vite",
+    "dev": "vite",
     "build": "react-dotenv && tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0 --report-unused-disable-directives",
@@ -17,7 +17,6 @@
     "dotenv": "^16.4.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-dotenv": "^0.1.3",
     "react-hot-toast": "^2.5.1",
     "react-icons": "^5.4.0"
   },
