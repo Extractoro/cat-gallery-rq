@@ -1,4 +1,4 @@
-import apiClient from "./apiClient";
+import apiClient from "./api-client.ts";
 import { ICat } from "../interfaces/cat.ts";
 import { IAllBreeds } from "../interfaces/all-breeds.ts";
 import toast from "react-hot-toast";
