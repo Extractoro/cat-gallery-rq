@@ -4,7 +4,7 @@ import {getBreedImages, getRandomCats} from "../api/api.ts";
 import toast from "react-hot-toast";
 import {FilterContext} from "../utils/FilterContext.tsx";
 import {ICat} from "../interfaces/interface-cat.ts";
-import {FaRegHeart, FaHeart} from "react-icons/fa";
+import Card from "./Card.tsx";
 
 const Table = () => {
     const {selectedBreed, showFavorites} = useContext(FilterContext)!;
@@ -62,23 +62,6 @@ const Table = () => {
         }
     };
 
-    const handleFavorite = (cat: ICat) => {
-        setFavoriteCats((prevFavorites) => {
-            const exists = prevFavorites.some((favCat) => favCat.id === cat.id);
-
-            const updatedFavorites = exists
-                ? prevFavorites.filter((favCat) => favCat.id !== cat.id)
-                : [...prevFavorites, cat];
-
-            localStorage.setItem("favoritesCats", JSON.stringify(updatedFavorites));
-            return updatedFavorites;
-        });
-    };
-
-    const checkFavorite = (cat_id: string): boolean => {
-        return favoriteCats.some((favCat) => favCat.id === cat_id);
-    };
-
     useEffect(() => {
         if (data) {
             setHasNextPage(data.length === 12);
@@ -99,7 +82,7 @@ const Table = () => {
                 }
             }
             toast.success(
-                `Cats successfully uploaded! ${selectedBreed ? "🐱" : "🐾"}`
+                `Cats successfully updated! ${selectedBreed ? "🐱" : "🐾"}`
             );
         } else if (isError) {
             toast.error("Failed to load cats. Please try again! 😿");
@@ -116,28 +99,7 @@ const Table = () => {
                         </p>}
                     <ul className='grid gap-5 transition-all ease-in-out delay-100 duration-300 justify-items-center sm:grid-cols-2 xl:grid-cols-3 '>
                         {(showFavorites ? favoriteCats : data)?.map((cat: ICat) => (
-                            <li key={cat.id} className='w-full'>
-                                <img src={cat.url}
-                                     className='object-cover w-full max-w-[400px] h-[300px] rounded-t-[8px] transition-all duration-300 xm:h-[350px] lg:h-[450px] lg:max-w-full'
-                                     alt={cat.id}/>
-                                {!(selectedBreed && !(selectedBreed === 'random')) &&
-                                    <div
-                                        className='flex items-center justify-between bg-gray-100 py-3 px-4 rounded-b-[8px]'>
-                                        <p className='text-black font-semibold text-xl '>Breed name: <span
-                                            className='font-normal'>{cat?.breeds[0]?.name}</span></p>
-                                        <button
-                                            onClick={() => handleFavorite(cat)}
-                                            className="w-5 h-5"
-                                        >
-                                            {checkFavorite(cat.id) ? (
-                                                <FaHeart color={"red"} size={20}/>
-                                            ) : (
-                                                <FaRegHeart size={20}/>
-                                            )}
-                                        </button>
-
-                                    </div>}
-                            </li>
+                            <Card cat={cat} favoriteCats={favoriteCats} setFavoriteCats={setFavoriteCats} />
                         ))}</ul>
 
                     {!showFavorites && (currentPage > 0 || hasNextPage) && (
