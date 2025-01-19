@@ -8,8 +8,7 @@
     "build": "react-dotenv && tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0 --report-unused-disable-directives",
-    "prepare": "husky",
-    "test": "vitest run"
+    "prepare": "husky"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.64.1",
