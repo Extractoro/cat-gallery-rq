@@ -1,7 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import {getBreeds} from "../api/api.ts";
 import {useContext} from "react";
-import {FilterContext} from "../utils/FilterContext.tsx";
+import {FilterContext} from "../utils/FilterContext";
 
 const Filter = () => {
     const {selectedBreed, setSelectedBreed, showFavorites, setShowFavorites} = useContext(FilterContext)!;

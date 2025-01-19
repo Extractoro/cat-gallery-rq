@@ -24,7 +24,6 @@ const Table = () => {
         setPage(0);
         setCurrentPage(0);
         setHasNextPage(true);
-        console.log(selectedBreed)
 
         setFavoriteCats(() => {
             const storedFavorites = JSON.parse(localStorage.getItem('favoritesCats') || '[]') as ICat[];
@@ -33,7 +32,7 @@ const Table = () => {
             }
             return storedFavorites.filter(
                 (favCat) =>
-                    (favCat.breeds && selectedBreed !== null) &&
+                    favCat.breeds &&
                     favCat.breeds[0]?.id?.toLowerCase() === selectedBreed.toLowerCase()
             );
         });
@@ -101,7 +100,7 @@ const Table = () => {
                         </p>}
                     <ul className='grid gap-5 transition-all ease-in-out delay-100 duration-300 justify-items-center sm:grid-cols-2 xl:grid-cols-3 '>
                         {(showFavorites ? favoriteCats : data)?.map((cat: ICat) => (
-                            <Card cat={cat} favoriteCats={favoriteCats} setFavoriteCats={setFavoriteCats} />
+                            <Card key={cat.id} cat={cat} favoriteCats={favoriteCats} setFavoriteCats={setFavoriteCats} />
                         ))}</ul>
 
                     {!showFavorites && (currentPage > 0 || hasNextPage) && (

@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 export interface FilterContextType {
-    selectedBreed: string | null;
-    setSelectedBreed: (breed: string | null) => void;
+    selectedBreed: string;
+    setSelectedBreed: (breed: string) => void;
     showFavorites: boolean;
     setShowFavorites: (show: boolean) => void;
 }
