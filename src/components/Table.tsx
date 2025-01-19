@@ -2,7 +2,7 @@ import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import {useContext, useEffect, useState} from "react";
 import {getBreedImages, getRandomCats} from "../api/api.ts";
 import toast from "react-hot-toast";
-import {FilterContext} from "../utils/FilterContext.tsx";
+import {FilterContext} from "../utils/FilterContext";
 import {ICat} from "../interfaces/interface-cat.ts";
 import Card from "./Card.tsx";
 
@@ -33,7 +33,7 @@ const Table = () => {
             }
             return storedFavorites.filter(
                 (favCat) =>
-                    favCat.breeds &&
+                    (favCat.breeds && selectedBreed !== null) &&
                     favCat.breeds[0]?.id?.toLowerCase() === selectedBreed.toLowerCase()
             );
         });
@@ -53,12 +53,14 @@ const Table = () => {
     })
 
     const changePage = (direction: "next" | "back") => {
-        if (direction === "next") {
-            setCurrentPage((p) => p + 1);
-            selectedBreed ? setBreedPage((p) => p + 1) : setPage((p) => p + 1);
+        const increment = direction === "next" ? 1 : -1;
+
+        setCurrentPage((p) => Math.max(0, p + increment));
+
+        if (selectedBreed) {
+            setBreedPage((p) => Math.max(0, p + increment));
         } else {
-            setCurrentPage((p) => Math.max(0, p - 1));
-            selectedBreed ? setBreedPage((p) => Math.max(0, p - 1)) : setPage((p) => Math.max(0, p - 1));
+            setPage((p) => Math.max(0, p + increment));
         }
     };
 

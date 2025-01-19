@@ -1,26 +1,16 @@
-import {createContext, ReactNode, useState} from "react";
-import React from "react";
+import React, { useState } from "react";
+import { FilterContext, FilterContextType } from "./FilterContext";
 
-interface FilterContextType {
-    selectedBreed: string;
-    setSelectedBreed: (breed: string) => void;
-    showFavorites: boolean;
-    setShowFavorites: (isShow: boolean) => void;
-}
+export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [selectedBreed, setSelectedBreed] = useState<string | null>(null);
+    const [showFavorites, setShowFavorites] = useState(false);
 
-export const FilterContext = createContext<FilterContextType | undefined>(undefined);
+    const value: FilterContextType = {
+        selectedBreed,
+        setSelectedBreed,
+        showFavorites,
+        setShowFavorites,
+    };
 
-interface FilterProviderProps {
-    children: ReactNode;
-}
-
-export const FilterProvider:  React.FC<FilterProviderProps> = ({ children }) => {
-    const [selectedBreed, setSelectedBreed] = useState<string>('random')
-    const [showFavorites, setShowFavorites] = useState<boolean>(false);
-
-    return (
-        <FilterContext.Provider value={{ selectedBreed, setSelectedBreed, showFavorites, setShowFavorites }}>
-            {children}
-        </FilterContext.Provider>
-    )
-}
+    return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>;
+};
